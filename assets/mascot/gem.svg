@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 206" width="110" height="206">
+  <title>Gem — the PaperClippy mascot (original artwork)</title>
+  <defs>
+    <path id="wire" d="M 40,144 L 40,66 A 19,19 0 0 1 78,66 L 78,164 A 32,32 0 0 1 14,164 L 14,54 A 41,41 0 0 1 96,54 L 96,138"
+          fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </defs>
+  <!-- invisible grab area -->
+  <rect x="5" y="6" width="100" height="196" rx="46" fill="#000" fill-opacity="0.004"/>
+  <!-- soft drop shadow -->
+  <use href="#wire" transform="translate(3,5)" stroke="#000" stroke-opacity="0.22" stroke-width="12"/>
+  <!-- vinyl-coated wire: dark edge, body, glossy highlight -->
+  <use href="#wire" stroke="#0D6B64" stroke-width="13"/>
+  <use href="#wire" stroke="#18A99E" stroke-width="9.5"/>
+  <use href="#wire" transform="translate(-2,-2.4)" stroke="#A6F2E6" stroke-opacity="0.8" stroke-width="2.6"/>
+  <!-- face -->
+  <ellipse cx="44" cy="98" rx="11" ry="14" fill="#FFFFFF" stroke="#1F2D3D" stroke-width="2"/>
+  <ellipse cx="74" cy="98" rx="11" ry="14" fill="#FFFFFF" stroke="#1F2D3D" stroke-width="2"/>
+  <ellipse cx="44" cy="100" rx="5" ry="7" fill="#1F2D3D"/>
+  <ellipse cx="74" cy="100" rx="5" ry="7" fill="#1F2D3D"/>
+  <ellipse cx="42.6" cy="96.4" rx="2" ry="2.2" fill="#FFFFFF"/>
+  <ellipse cx="72.6" cy="96.4" rx="2" ry="2.2" fill="#FFFFFF"/>
+  <ellipse cx="31" cy="117" rx="5.5" ry="3.2" fill="#FF8A7A" fill-opacity="0.6"/>
+  <ellipse cx="87" cy="117" rx="5.5" ry="3.2" fill="#FF8A7A" fill-opacity="0.6"/>
+  <path d="M 48,123 Q 59,133 70,123" fill="none" stroke="#1F2D3D" stroke-width="2.6" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The Windows shell of PaperClippy: WPF windows, tray icon, Win32 interop.
+    Windows-only by design (net10.0-windows); everything testable lives in Core/Infrastructure.
+    Supported architectures: x64 and ARM64 (user32 *LongPtr entry points are 64-bit only).
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <!-- WinForms is referenced ONLY for NotifyIcon (tray) and Screen (monitor enumeration): no extra NuGet dependency. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- WPF + WinForms both define Application/MessageBox/etc.; explicit usings avoid ambiguity. -->
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>PaperClippy</AssemblyName>
+    <RootNamespace>PaperClippy.App</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>..\..\assets\icons\paperclippy.ico</ApplicationIcon>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PaperClippy.Core\PaperClippy.Core.csproj" />
+    <ProjectReference Include="..\PaperClippy.Infrastructure\PaperClippy.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

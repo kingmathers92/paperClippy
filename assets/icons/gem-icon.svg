@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-65 -17 240 240" width="240" height="240">
+  <title>Gem tray/app icon: wire only, rotated, bold for small sizes</title>
+  <defs>
+    <path id="wire" d="M 40,144 L 40,66 A 19,19 0 0 1 78,66 L 78,164 A 32,32 0 0 1 14,164 L 14,54 A 41,41 0 0 1 96,54 L 96,138"
+          fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </defs>
+  <g transform="rotate(38 55 103)">
+    <use href="#wire" stroke="#0D6B64" stroke-width="21"/>
+    <use href="#wire" stroke="#18A99E" stroke-width="15"/>
+    <use href="#wire" transform="translate(-2.5,-3)" stroke="#A6F2E6" stroke-opacity="0.75" stroke-width="3.6"/>
+  </g>
+</svg>

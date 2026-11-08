@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Pure, dependency-free domain logic. No WPF, no Win32, no SQLite.
+    Everything here must be testable on any OS.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>PaperClippy.Core</RootNamespace>
+  </PropertyGroup>
+
+</Project>

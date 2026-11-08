@@ -1,0 +1,83 @@
+<Window x:Class="PaperClippy.App.Mascot.MascotWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PaperClippy"
+        Width="{Binding WindowWidth}"
+        Height="{Binding WindowHeight}"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        Topmost="True"
+        WindowStartupLocation="Manual"
+        AutomationProperties.Name="Gem, the PaperClippy mascot">
+
+    <Window.Resources>
+        <!-- One shape, three colours: this is the same path as assets/mascot/gem.svg. -->
+        <Geometry x:Key="GemWire">M 40,144 L 40,66 A 19,19 0 0 1 78,66 L 78,164 A 32,32 0 0 1 14,164 L 14,54 A 41,41 0 0 1 96,54 L 96,138</Geometry>
+    </Window.Resources>
+
+    <!-- No Background on purpose: fully transparent pixels stay click-through. -->
+    <Grid x:Name="Body"
+          Cursor="SizeAll"
+          ToolTip="Gem: drag me anywhere. Right-click for options."
+          MouseLeftButtonDown="OnBodyMouseLeftButtonDown">
+
+        <Grid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="_Hide Gem" Command="{Binding HideCommand}" />
+                <Separator />
+                <MenuItem Header="E_xit PaperClippy" Command="{Binding ExitCommand}" />
+            </ContextMenu>
+        </Grid.ContextMenu>
+
+        <Viewbox Stretch="Uniform">
+            <Canvas Width="110" Height="206">
+
+                <!-- Almost-invisible body-shaped grab area (alpha 1/255 so it is still hit-testable). -->
+                <Rectangle Canvas.Left="5" Canvas.Top="6" Width="100" Height="196"
+                           RadiusX="46" RadiusY="46" Fill="#01000000" />
+
+                <!-- Soft drop shadow -->
+                <Path Data="{StaticResource GemWire}" Stroke="#38000000" StrokeThickness="12"
+                      StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round">
+                    <Path.RenderTransform>
+                        <TranslateTransform X="3" Y="5" />
+                    </Path.RenderTransform>
+                </Path>
+
+                <!-- Vinyl-coated wire: dark edge, body, glossy highlight -->
+                <Path Data="{StaticResource GemWire}" Stroke="#0D6B64" StrokeThickness="13"
+                      StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                <Path Data="{StaticResource GemWire}" Stroke="#18A99E" StrokeThickness="9.5"
+                      StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                <Path Data="{StaticResource GemWire}" Stroke="#CCA6F2E6" StrokeThickness="2.6"
+                      StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round">
+                    <Path.RenderTransform>
+                        <TranslateTransform X="-2" Y="-2.4" />
+                    </Path.RenderTransform>
+                </Path>
+
+                <!-- Eyes -->
+                <Ellipse Canvas.Left="33" Canvas.Top="84" Width="22" Height="28"
+                         Fill="#FFFFFF" Stroke="#1F2D3D" StrokeThickness="2" />
+                <Ellipse Canvas.Left="63" Canvas.Top="84" Width="22" Height="28"
+                         Fill="#FFFFFF" Stroke="#1F2D3D" StrokeThickness="2" />
+                <Ellipse Canvas.Left="39" Canvas.Top="93" Width="10" Height="14" Fill="#1F2D3D" />
+                <Ellipse Canvas.Left="69" Canvas.Top="93" Width="10" Height="14" Fill="#1F2D3D" />
+                <Ellipse Canvas.Left="40.6" Canvas.Top="94.2" Width="4" Height="4.4" Fill="#FFFFFF" />
+                <Ellipse Canvas.Left="70.6" Canvas.Top="94.2" Width="4" Height="4.4" Fill="#FFFFFF" />
+
+                <!-- Cheeks and smile -->
+                <Ellipse Canvas.Left="25.5" Canvas.Top="113.8" Width="11" Height="6.4"
+                         Fill="#FF8A7A" Opacity="0.6" />
+                <Ellipse Canvas.Left="81.5" Canvas.Top="113.8" Width="11" Height="6.4"
+                         Fill="#FF8A7A" Opacity="0.6" />
+                <Path Data="M 48,123 Q 59,133 70,123" Stroke="#1F2D3D" StrokeThickness="2.6"
+                      StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</Window>
