@@ -36,30 +36,30 @@ Data lives in `%LOCALAPPDATA%\PaperClippy` (`data\paperclippy.db`, `logs\papercl
 
 ## What works in Milestone 1
 
-- Transparent, borderless, always-on-top mascot window; drag it anywhere. Right-click for *Hide* / *Exit*.
+- Transparent, borderless, always-on-top mascot window; drag it anywhere. Right-click for _Hide_ / _Exit_.
 - Position, visibility and size are saved and restored.
 - Never lost off-screen: after a drag, a monitor change or a resolution change, Gem is pulled back to the
   nearest visible monitor. First launch: bottom-right corner of the primary monitor.
 - Per-monitor DPI v2; positions are handled in physical pixels, so mixed-DPI multi-monitor setups behave.
-- System tray icon: double-click toggles Gem; menu has Show/Hide, *Bring Gem to the Corner*, Exit.
+- System tray icon: double-click toggles Gem; menu has Show/Hide, _Bring Gem to the Corner_, Exit.
 - Single instance: launching again wakes the running copy (and shows Gem if hidden) instead of starting another.
 - SQLite storage with versioned migrations (WAL mode). A damaged database file is quarantined (renamed
-  `*.corrupt-<time>`, never deleted) and a fresh one is created. A database from a *newer* build is refused untouched.
+  `*.corrupt-<time>`, never deleted) and a fresh one is created. A database from a _newer_ build is refused untouched.
 - Rolling log file; unhandled UI exceptions are logged instead of killing the companion.
 - Idle cost: no timers or animation loops run while idle.
 
-## Verification status — please read
+## Verification status
 
 This milestone was written in a Linux sandbox with no access to NuGet or Windows. Here is exactly what was and
 was not verified:
 
-| Part | State |
-|---|---|
-| `PaperClippy.Core` (placement geometry, settings contracts, mascot placement) | Built with warnings-as-errors. **31 unit tests executed and passing**; tests were mutation-checked (broke the logic on purpose, confirmed they fail). |
-| SQL and SQLite behaviour the persistence layer relies on (transactional `user_version`, upsert, damaged-file error code) | Checked against SQLite 3.45 directly. |
-| `SingleInstanceGuard` listener/shutdown logic | Executed (with the named-event line swapped for an in-process one, because Linux has no named events). Windows named-object behaviour is unverified. |
-| `PaperClippy.Infrastructure` + its 14 tests | Type-checked against an API-shaped stub of `Microsoft.Data.Sqlite`. **Never executed, never linked against the real package.** |
-| `PaperClippy.App` (WPF, tray, Win32 interop) | **Never compiled or run.** XAML/manifest checked for well-formedness; code desk-reviewed. |
+| Part                                                                                                                     | State                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PaperClippy.Core` (placement geometry, settings contracts, mascot placement)                                            | Built with warnings-as-errors. **31 unit tests executed and passing**; tests were mutation-checked (broke the logic on purpose, confirmed they fail). |
+| SQL and SQLite behaviour the persistence layer relies on (transactional `user_version`, upsert, damaged-file error code) | Checked against SQLite 3.45 directly.                                                                                                                 |
+| `SingleInstanceGuard` listener/shutdown logic                                                                            | Executed (with the named-event line swapped for an in-process one, because Linux has no named events). Windows named-object behaviour is unverified.  |
+| `PaperClippy.Infrastructure` + its 14 tests                                                                              | Type-checked against an API-shaped stub of `Microsoft.Data.Sqlite`. **Never executed, never linked against the real package.**                        |
+| `PaperClippy.App` (WPF, tray, Win32 interop)                                                                             | **Never compiled or run.** XAML/manifest checked for well-formedness; code desk-reviewed.                                                             |
 
 So the first `dotnet build` / `dotnet test` on Windows is the real test of Infrastructure and App. If something
 fails to compile, it will be small (typo/API-shape level). [docs/TESTING.md](docs/TESTING.md) lists the manual
