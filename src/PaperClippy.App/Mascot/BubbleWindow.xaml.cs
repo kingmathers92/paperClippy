@@ -139,7 +139,7 @@ public partial class BubbleWindow : Window
             RadiusX = CornerRadius - 3,
             RadiusY = CornerRadius - 3,
             StrokeThickness = 1,
-            StrokeDashArray = [1.5, 2.5],
+            StrokeDashArray = new DoubleCollection { 1.5, 2.5 },
             IsHitTestVisible = false,
         };
         stitch.SetResourceReference(Shape.StrokeProperty, "Brush.Line");
