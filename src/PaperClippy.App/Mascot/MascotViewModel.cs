@@ -1,18 +1,17 @@
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using PaperClippy.Core.Mascot;
 
 namespace PaperClippy.App.Mascot;
 
 /// <summary>
-/// State and commands for the mascot window. Deliberately small in Milestone 1; the animation
-/// state machine and speech bubbles (Milestone 2) attach here.
+/// Size state for the mascot window. Behaviour lives in <see cref="PaperClippy.Core.Mascot.Behavior.GemBrain"/>; this just
+/// turns the user's size choice into a window size.
 /// </summary>
 public sealed partial class MascotViewModel : ObservableObject
 {
-    /// <summary>Window size in device-independent pixels at scale 1.0 (same aspect ratio as the 110x206 artwork).</summary>
-    public const double BaseWidth = 80;
-    public const double BaseHeight = 150;
+    /// <summary>Window size in device-independent pixels at scale 1.0.</summary>
+    public const double BaseWidth = GemLayout.CanvasWidth * GemLayout.DipsPerUnit;
+    public const double BaseHeight = GemLayout.CanvasHeight * GemLayout.DipsPerUnit;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(WindowWidth))]
@@ -22,14 +21,4 @@ public sealed partial class MascotViewModel : ObservableObject
     public double WindowWidth => BaseWidth * Scale;
 
     public double WindowHeight => BaseHeight * Scale;
-
-    public event EventHandler? HideRequested;
-
-    public event EventHandler? ExitRequested;
-
-    [RelayCommand]
-    private void Hide() => HideRequested?.Invoke(this, EventArgs.Empty);
-
-    [RelayCommand]
-    private void Exit() => ExitRequested?.Invoke(this, EventArgs.Empty);
 }

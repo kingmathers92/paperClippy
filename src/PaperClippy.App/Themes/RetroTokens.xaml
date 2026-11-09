@@ -1,0 +1,113 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Design tokens for the nostalgic look (Milestone 2 uses one palette; Milestone 5 adds the Windows 98 / XP / Warm
+        Paper themes by swapping these same keys at runtime, which is why everything below is referenced with
+        DynamicResource).
+    -->
+
+    <FontFamily x:Key="Font.UI">Tahoma, Segoe UI</FontFamily>
+
+    <SolidColorBrush x:Key="Brush.Surface" Color="#FFF8DE" />        <!-- cream paper -->
+    <SolidColorBrush x:Key="Brush.Ink" Color="#2B2118" />
+    <SolidColorBrush x:Key="Brush.Line" Color="#CDB98B" />
+    <SolidColorBrush x:Key="Brush.Selection" Color="#000080" />      <!-- classic navy highlight -->
+    <SolidColorBrush x:Key="Brush.SelectionText" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="Brush.Face" Color="#D4D0C8" />           <!-- classic dialog gray -->
+    <SolidColorBrush x:Key="Brush.FaceHover" Color="#E4E0D8" />
+    <SolidColorBrush x:Key="Brush.Light" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="Brush.Shadow" Color="#808080" />
+    <SolidColorBrush x:Key="Brush.DarkShadow" Color="#404040" />
+
+    <!-- Classic raised push button (Windows 98 style bevel, with a bit more padding for readability). -->
+    <Style x:Key="Retro.Button" TargetType="Button">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.UI}" />
+        <Setter Property="FontSize" Value="12.5" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="MinWidth" Value="72" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Border x:Name="Face" Background="{DynamicResource Brush.Face}"
+                                BorderBrush="{DynamicResource Brush.DarkShadow}" BorderThickness="1" />
+                        <Rectangle x:Name="HiTop" VerticalAlignment="Top" Height="1" Margin="1,1,1,0" Fill="{DynamicResource Brush.Light}" />
+                        <Rectangle x:Name="HiLeft" HorizontalAlignment="Left" Width="1" Margin="1,1,0,1" Fill="{DynamicResource Brush.Light}" />
+                        <Rectangle x:Name="LoBottom" VerticalAlignment="Bottom" Height="1" Margin="1,0,1,1" Fill="{DynamicResource Brush.Shadow}" />
+                        <Rectangle x:Name="LoRight" HorizontalAlignment="Right" Width="1" Margin="0,1,1,1" Fill="{DynamicResource Brush.Shadow}" />
+                        <ContentPresenter x:Name="Content" Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Face" Property="Background" Value="{DynamicResource Brush.FaceHover}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="HiTop" Property="Fill" Value="{DynamicResource Brush.Shadow}" />
+                            <Setter TargetName="HiLeft" Property="Fill" Value="{DynamicResource Brush.Shadow}" />
+                            <Setter TargetName="LoBottom" Property="Fill" Value="{DynamicResource Brush.Light}" />
+                            <Setter TargetName="LoRight" Property="Fill" Value="{DynamicResource Brush.Light}" />
+                            <Setter TargetName="Content" Property="Margin" Value="13,5,11,3" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Template>
+        </Setter>
+    </Style>
+
+    <!-- One row of a bubble menu: flat, left-aligned, navy highlight on hover like a classic menu. -->
+    <Style x:Key="Retro.Choice" TargetType="Button">
+        <Setter Property="FontFamily" Value="{DynamicResource Font.UI}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Ink}" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Row" Background="Transparent" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Row" Property="Background" Value="{DynamicResource Brush.Selection}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.SelectionText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Template>
+        </Setter>
+    </Style>
+
+    <!-- The small x in a bubble's corner. -->
+    <Style x:Key="Retro.CloseButton" TargetType="Button">
+        <Setter Property="Foreground" Value="#7A6A48" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="ToolTip" Value="Dismiss" />
+        <Setter Property="Template">
+            <Setter.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Box" Background="Transparent" Width="18" Height="18" CornerRadius="2">
+                        <TextBlock Text="×" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-2,0,0"
+                                   Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Box" Property="Background" Value="{DynamicResource Brush.Selection}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush.SelectionText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Template>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -94,6 +94,7 @@ public partial class PaperClippyApp : Application
             sp.GetRequiredService<SqliteDatabase>(),
             sp.GetRequiredService<FileLog>()));
         services.AddSingleton<MascotPlacementRepository>();
+        services.AddSingleton<MascotSettingsRepository>();
         services.AddSingleton<MonitorService>();
         services.AddSingleton<MascotHost>();
         services.AddSingleton<TrayIconService>();

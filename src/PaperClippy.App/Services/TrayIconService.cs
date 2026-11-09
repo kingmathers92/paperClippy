@@ -15,6 +15,8 @@ internal sealed class TrayIconService : IDisposable
     private readonly Drawing.Icon _icon;
     private readonly WinForms.ContextMenuStrip _menu;
     private readonly WinForms.ToolStripMenuItem _toggleItem;
+    private readonly WinForms.ToolStripMenuItem _quietItem;
+    private readonly WinForms.ToolStripMenuItem _focusItem;
     private readonly WinForms.NotifyIcon _notifyIcon;
     private bool _disposed;
 
@@ -27,17 +29,32 @@ internal sealed class TrayIconService : IDisposable
 
         _toggleItem = new WinForms.ToolStripMenuItem("Hide Gem", null, (_, _) => _mascot.Toggle());
         var resetItem = new WinForms.ToolStripMenuItem("Bring Gem to the Corner", null, (_, _) => _mascot.ResetPosition());
+        _quietItem = new WinForms.ToolStripMenuItem("Quiet mode", null, (_, _) => _mascot.SetQuietMode(!_mascot.QuietMode));
+        var settingsItem = new WinForms.ToolStripMenuItem("Gem Settings…", null, (_, _) => _mascot.OpenSettings());
+        _focusItem = new WinForms.ToolStripMenuItem("Don't take keyboard focus (experimental)", null, (_, _) => _mascot.SetKeepFocus(!_mascot.KeepFocus))
+        {
+            ToolTipText = "Keeps the window you were typing in active when you click Gem. Turn off if clicking Gem misbehaves.",
+        };
         var exitItem = new WinForms.ToolStripMenuItem("Exit PaperClippy", null, (_, _) => System.Windows.Application.Current.Shutdown());
 
-        _menu = new WinForms.ContextMenuStrip();
+        _menu = new WinForms.ContextMenuStrip { ShowItemToolTips = true };
         _menu.Items.AddRange(new WinForms.ToolStripItem[]
         {
             _toggleItem,
             resetItem,
             new WinForms.ToolStripSeparator(),
+            _quietItem,
+            settingsItem,
+            _focusItem,
+            new WinForms.ToolStripSeparator(),
             exitItem,
         });
-        _menu.Opening += (_, _) => _toggleItem.Text = _mascot.IsVisible ? "Hide Gem" : "Show Gem";
+        _menu.Opening += (_, _) =>
+        {
+            _toggleItem.Text = _mascot.IsVisible ? "Hide Gem" : "Show Gem";
+            _quietItem.Checked = _mascot.QuietMode;
+            _focusItem.Checked = _mascot.KeepFocus;
+        };
 
         _notifyIcon = new WinForms.NotifyIcon
         {

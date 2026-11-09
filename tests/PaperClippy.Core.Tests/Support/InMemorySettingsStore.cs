@@ -33,4 +33,6 @@ public sealed class InMemorySettingsStore : ISettingsStore
     }
 
     public void PutRaw(string key, string json) => _values[key] = json;
+
+    public string? GetRaw(string key) => _values.GetValueOrDefault(key);
 }

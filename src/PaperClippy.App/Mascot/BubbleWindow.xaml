@@ -1,0 +1,19 @@
+<Window x:Class="PaperClippy.App.Mascot.BubbleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gem says"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        Topmost="True"
+        WindowStartupLocation="Manual"
+        FontFamily="{DynamicResource Font.UI}"
+        FontSize="13"
+        TextOptions.TextFormattingMode="Display"
+        AutomationProperties.Name="Gem's speech bubble">
+    <!-- Everything is built in code (BubbleWindow.xaml.cs): its size and shape depend on the text and on which side of Gem it sits. -->
+    <Canvas x:Name="Layer" />
+</Window>

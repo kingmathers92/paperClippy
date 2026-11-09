@@ -9,7 +9,7 @@ PaperClippy.App ──► PaperClippy.Infrastructure ──► PaperClippy.Core
 
 | Project | Target | Depends on | Holds |
 |---|---|---|---|
-| `Core` | net10.0 | nothing | Placement geometry, `ISettingsStore`, mascot placement model. No I/O, no Windows. |
+| `Core` | net10.0 | nothing | Placement geometry, settings, the animation engine, personality, speech, and `GemBrain`. No I/O, no Windows. |
 | `Infrastructure` | net10.0 | Core, Microsoft.Data.Sqlite | SQLite database + migrations, settings store, file log, data paths. |
 | `App` | net10.0-windows | Core, Infrastructure, CommunityToolkit.Mvvm, Microsoft.Extensions.DependencyInjection | WPF windows, tray icon, Win32 interop, composition root. |
 
@@ -55,6 +55,46 @@ static art, and a known cost to measure when animation arrives in Milestone 2 (s
 **Not activating the mascot's window** (`WS_EX_NOACTIVATE`, so clicking Gem never steals focus) was considered and
 deliberately deferred: it can interfere with WPF popups/context menus and must be tested on a real machine with speech
 bubbles in place.
+
+## Gem's brain (Milestone 2)
+
+The most important decision in Milestone 2: **all of Gem's behaviour lives in `Core`, behind four small interfaces**,
+and the WPF layer is deliberately thin.
+
+```
+ mouse / timers / presence ──► GemBrain ──► IGemStage ──► MascotHost ──► GemView, BubbleWindow, ...
+        (WPF events)        (pure logic)   (interface)     (WPF)         (draw poses, show bubbles)
+```
+
+- `GemBrain` decides what happens (react to a click, fall asleep, chatter, open the menu). It talks to the world only
+  through `IGemStage` (draw a pose, show/close a bubble, resize, ask the shell to hide/exit/open settings), `IClock`,
+  `IScheduler` (one-shot timers) and `IPresenceSource` (time since the user's last input).
+- In tests those are a virtual clock/scheduler, so hours of behaviour run in milliseconds and are fully deterministic
+  (seeded randomness). In the app they are `SystemClock`, `DispatcherScheduler`, `WindowsPresenceSource` and `MascotHost`.
+- `MascotAnimator` turns (state, time, randomness) into a **`Pose`**: plain numbers (eye openness, gaze, mouth, brows,
+  squash, tilt, overlay opacities). `GemView` only maps a pose onto transforms. Adding an expression means adding a case
+  to one function in Core; the view rarely changes.
+
+**Idle cost.** The animator reports `NextFrameDelay`: a frame interval while something is moving, a long delay (up to
+seconds) until the next blink/glance when settled, or "nothing" when fully static. The brain schedules exactly that, so a
+settled Gem draws almost nothing, a hidden Gem schedules *nothing*, and the "fall asleep when I'm away" presence check
+(every 15 s) only exists if that option is on. Sleeping animates at <= 10 fps and Working at <= 24 fps.
+Layered (`AllowsTransparency`) windows are software-rendered, so this pacing is the main CPU defence.
+
+**Personality picks the tone first.** A line's tone (Warm / Witty / Sarcastic) is chosen from the user's attitude
+setting, *then* a fresh line within that tone. An early version picked lines directly, and the no-repeat rule quietly
+flattened the dial toward whatever mix the library contained (Sassy was only 11 points sassier than Playful); the
+tests caught it. Measured now: Gentle 0% sarcastic, Playful ~18%, Sassy ~61%.
+
+**Speech bubbles are their own window**, so they can sit beside Gem without enlarging Gem's click area. The bubble's
+size depends on its text, so it is measured first, `BubblePlacement` (pure, tested) chooses a side and position on Gem's
+own monitor, then the shape is drawn from `BubbleGeometry` path data. The click menu is the same bubble with choice rows,
+which is both the classic assistant look and one component instead of two.
+
+**Non-activating windows** (`WS_EX_NOACTIVATE`, so clicking Gem doesn't steal keyboard focus) are implemented but
+**off by default** behind one setting and a tray toggle, because I could not test them: they can interfere with WPF
+popups, which is why the menu is a custom bubble rather than a WPF `ContextMenu`. Once confirmed on hardware, flipping the
+default is a one-line change in `MascotSettings`.
 
 ## Threading rules
 
