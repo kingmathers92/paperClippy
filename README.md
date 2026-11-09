@@ -40,6 +40,7 @@ Data lives in `%LOCALAPPDATA%\PaperClippy` (`data\paperclippy.db`, `logs\papercl
 
 ## What Gem does
 
+<<<<<<< HEAD
 **Animation** - nine states (idle, thinking, happy, confused, sleeping, working, celebrating, talking, grabbed) plus a
 sarcastic _smug_ face. At rest Gem blinks (sometimes twice), glances around and takes a breath; its eyes follow the
 pointer while it is over Gem; it squashes when clicked, startles when woken, swings like it's dangling when dragged,
@@ -48,13 +49,25 @@ and throws confetti when celebrating. "Animation: Off" keeps the faces but remov
 **Speech bubbles** - retro cream cards with a pointer toward Gem, a hard offset shadow, a stitched inner border,
 typewriter text (Gem's mouth flaps while it "types"), a dismiss ×, buttons, and timed dismissal that pauses while you
 hover. The bubble picks the side of Gem with room (beside first, then above, then below) and stays on Gem's monitor.
+=======
+
+- Transparent, borderless, always-on-top mascot window; drag it anywhere. Right-click for _Hide_ / _Exit_.
+- Position, visibility and size are saved and restored.
+- Never lost off-screen: after a drag, a monitor change or a resolution change, Gem is pulled back to the
+  nearest visible monitor. First launch: bottom-right corner of the primary monitor.
+- Per-monitor DPI v2; positions are handled in physical pixels, so mixed-DPI multi-monitor setups behave.
+- System tray icon: double-click toggles Gem; menu has Show/Hide, _Bring Gem to the Corner_, Exit.
+- Single instance: launching again wakes the running copy (and shows Gem if hidden) instead of starting another.
+- SQLite storage with versioned migrations (WAL mode). A damaged database file is quarantined (renamed
+  `*.corrupt-<time>`, never deleted) and a fresh one is created. A database from a _newer_ build is refused untouched.
+- Rolling log file; unhandled UI exceptions are logged instead of killing the companion.
+- Idle cost: no timers or animation loops run while idle.
+
+## Verification status
 
 **Personality** - 107 hand-written lines, no AI, no network. Three attitudes: _Gentle_ (warm, never sarcastic),
 _Playful_ (the default: funny, about one line in six dry or sarcastic) and _Sassy_ (about 60% sarcastic). Lines never
 repeat back-to-back, some are only said at the right time of day, and every sarcastic line comes with a smug face.
-
-**Click menu** - click (or right-click) Gem: _Tell me something_, _Show me around_ (a short tour), _Change my look_
-(size, accessory, try an expression), _Gem settings_, _Quiet mode_, _Take a nap_, _Hide_, _Exit_.
 
 **Looks** - sizes from 50% to 200%, and accessories (glasses, party hat, bow tie). Colours are defined in one palette
 object so other colours can be offered later.
