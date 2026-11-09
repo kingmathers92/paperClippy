@@ -41,7 +41,7 @@ Data lives in `%LOCALAPPDATA%\PaperClippy` (`data\paperclippy.db`, `logs\papercl
 ## What Gem does
 
 **Animation** - nine states (idle, thinking, happy, confused, sleeping, working, celebrating, talking, grabbed) plus a
-sarcastic *smug* face. At rest Gem blinks (sometimes twice), glances around and takes a breath; its eyes follow the
+sarcastic _smug_ face. At rest Gem blinks (sometimes twice), glances around and takes a breath; its eyes follow the
 pointer while it is over Gem; it squashes when clicked, startles when woken, swings like it's dangling when dragged,
 and throws confetti when celebrating. "Animation: Off" keeps the faces but removes all motion.
 
@@ -49,12 +49,12 @@ and throws confetti when celebrating. "Animation: Off" keeps the faces but remov
 typewriter text (Gem's mouth flaps while it "types"), a dismiss ×, buttons, and timed dismissal that pauses while you
 hover. The bubble picks the side of Gem with room (beside first, then above, then below) and stays on Gem's monitor.
 
-**Personality** - 107 hand-written lines, no AI, no network. Three attitudes: *Gentle* (warm, never sarcastic),
-*Playful* (the default: funny, about one line in six dry or sarcastic) and *Sassy* (about 60% sarcastic). Lines never
+**Personality** - 107 hand-written lines, no AI, no network. Three attitudes: _Gentle_ (warm, never sarcastic),
+_Playful_ (the default: funny, about one line in six dry or sarcastic) and _Sassy_ (about 60% sarcastic). Lines never
 repeat back-to-back, some are only said at the right time of day, and every sarcastic line comes with a smug face.
 
-**Click menu** - click (or right-click) Gem: *Tell me something*, *Show me around* (a short tour), *Change my look*
-(size, accessory, try an expression), *Gem settings*, *Quiet mode*, *Take a nap*, *Hide*, *Exit*.
+**Click menu** - click (or right-click) Gem: _Tell me something_, _Show me around_ (a short tour), _Change my look_
+(size, accessory, try an expression), _Gem settings_, _Quiet mode_, _Take a nap_, _Hide_, _Exit_.
 
 **Looks** - sizes from 50% to 200%, and accessories (glasses, party hat, bow tie). Colours are defined in one palette
 object so other colours can be offered later.
@@ -63,27 +63,27 @@ object so other colours can be offered later.
 minutes of its last remark, never over a menu, never in Quiet mode or your quiet hours. It falls asleep when you've been
 away (default 5 minutes) and welcomes you back. While hidden it runs nothing at all.
 
-**Settings dialog** (tray -> *Gem Settings...* or the menu): show/hide, size, accessory, animation, attitude, chattiness,
+**Settings dialog** (tray -> _Gem Settings..._ or the menu): show/hide, size, accessory, animation, attitude, chattiness,
 bubble duration, quiet mode, quiet hours, sleep delay, eyes following the mouse, and the focus option below.
 
-**Focus** - clicking Gem normally activates its window like any window. *"Don't take keyboard focus" (experimental,
-off by default)* uses a non-activating window so the app you were typing in stays active. It needs testing on real
+**Focus** - clicking Gem normally activates its window like any window. _"Don't take keyboard focus" (experimental,
+off by default)_ uses a non-activating window so the app you were typing in stays active. It needs testing on real
 hardware before it becomes the default - see [docs/TESTING.md](docs/TESTING.md).
 
 Everything from Milestone 1 still applies: draggable, remembers where it lives, never lost off-screen, tray icon,
 single instance, SQLite with migrations and damaged-file recovery.
 
-## Verification status - please read
+## Verification status
 
 This was written in a Linux sandbox with no access to NuGet or Windows. Here is exactly what was and was not verified:
 
-| Part | State |
-|---|---|
+| Part                                                                                                                                          | State                                                                                                                                                                                                                                  |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **`PaperClippy.Core`**: animation engine, personality, speech timing/shape/placement, settings, menu, and the "brain" that ties them together | Built with warnings-as-errors. **173 unit tests executed and passing**, including simulated hours of chatter, sleep and menu use on a virtual clock. Tests were mutation-checked (broke the logic on purpose and confirmed they fail). |
-| How Gem *looks* | Real animator output was rendered to images and reviewed (`assets/mascot/expressions.png`, `bubble-style.png`). The XAML mirrors that structure but has not been rendered by WPF. |
-| SQL and SQLite behaviour the persistence layer relies on | Checked against SQLite 3.45 directly. |
-| `PaperClippy.Infrastructure` + its 14 tests | Type-checked against an API-shaped stub of `Microsoft.Data.Sqlite`. **Never executed.** |
-| `PaperClippy.App` (WPF windows, bubble, settings dialog, tray, Win32 interop) | **Never compiled or run.** XAML well-formed; every XAML name, handler and resource key cross-checked against code by script; code desk-reviewed. |
+| How Gem _looks_                                                                                                                               | Real animator output was rendered to images and reviewed (`assets/mascot/expressions.png`, `bubble-style.png`). The XAML mirrors that structure but has not been rendered by WPF.                                                      |
+| SQL and SQLite behaviour the persistence layer relies on                                                                                      | Checked against SQLite 3.45 directly.                                                                                                                                                                                                  |
+| `PaperClippy.Infrastructure` + its 14 tests                                                                                                   | Type-checked against an API-shaped stub of `Microsoft.Data.Sqlite`. **Never executed.**                                                                                                                                                |
+| `PaperClippy.App` (WPF windows, bubble, settings dialog, tray, Win32 interop)                                                                 | **Never compiled or run.** XAML well-formed; every XAML name, handler and resource key cross-checked against code by script; code desk-reviewed.                                                                                       |
 
 So the first `dotnet build` / `dotnet test` on Windows is the real test of Infrastructure and App - expect, at worst,
 small compile fixes. [docs/TESTING.md](docs/TESTING.md) lists the manual checks, riskiest first.
